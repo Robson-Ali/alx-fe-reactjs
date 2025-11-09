@@ -1,8 +1,8 @@
 function Footer() {
   return (
-    <footer>
-      <p>© 2023 City Lovers</p>
-    </footer>
+    <footer style={{ backgroundColor: '#222', color: '#ddd', padding: '15px', textAlign: 'center' }}>
+  <p>© 2025 My React App</p>
+</footer>
   );
 }
 export default Footer;
