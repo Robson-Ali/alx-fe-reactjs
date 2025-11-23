@@ -1,5 +1,5 @@
 import { useState } from "react";
-import searchUsers from "../services/githubService";
+import fetchUserData from "../services/githubService"; // must import this exact name
 
 function Search() {
   const [username, setUsername] = useState("");
@@ -20,7 +20,7 @@ function Search() {
     setPage(1);
 
     try {
-      const result = await searchUsers(username, location, minRepos, 1);
+      const result = await fetchUserData(username, location, minRepos, 1);
       setUsers(result.items);
       setHasMore(result.total_count > result.items.length);
     } catch (err) {
@@ -35,7 +35,7 @@ function Search() {
     setPage(nextPage);
 
     try {
-      const result = await searchUsers(username, location, minRepos, nextPage);
+      const result = await fetchUserData(username, location, minRepos, nextPage);
       setUsers((prev) => [...prev, ...result.items]);
       setHasMore(result.items.length > 0);
     } catch (err) {
@@ -45,7 +45,6 @@ function Search() {
 
   return (
     <div className="max-w-xl mx-auto mt-10">
-      {/* Search Form */}
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-lg shadow-md space-y-4"
@@ -84,7 +83,6 @@ function Search() {
         </button>
       </form>
 
-      {/* Results */}
       {loading && <p className="mt-4 text-center">Loading...</p>}
       {error && <p className="mt-4 text-center text-red-500">{error}</p>}
 
@@ -101,11 +99,9 @@ function Search() {
             />
 
             <div>
-              <p className="font-bold">{user.login}</p>
+              <p className="font-bold">login: {user.login}</p>
               {user.location && (
-                <p className="text-sm text-gray-600">
-                  Location: {user.location}
-                </p>
+                <p className="text-sm text-gray-600">Location: {user.location}</p>
               )}
               <a
                 href={user.html_url}
@@ -120,7 +116,6 @@ function Search() {
         ))}
       </div>
 
-      {/* Load More */}
       {hasMore && !loading && (
         <div className="mt-6 text-center">
           <button
