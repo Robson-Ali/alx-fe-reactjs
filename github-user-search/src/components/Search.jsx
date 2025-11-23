@@ -27,14 +27,19 @@ function Search() {
 
   return (
     <div style={{ maxWidth: "400px", margin: "20px auto" }}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ display: "flex", gap: "10px" }}>
         <input
           type="text"
           placeholder="Search GitHub username..."
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{ width: "100%", padding: "10px" }}
+          style={{ flex: "1", padding: "10px" }}
         />
+
+        {/* Required button */}
+        <button type="submit" style={{ padding: "10px 20px" }}>
+          Search
+        </button>
       </form>
 
       {/* Conditional Rendering */}
@@ -48,14 +53,4 @@ function Search() {
             alt="avatar"
             style={{ width: "120px", borderRadius: "50%" }}
           />
-          <h2>{userData.name || userData.login}</h2>
-          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
-            Visit Profile
-          </a>
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default Search;
+          <h2>{userData.na
