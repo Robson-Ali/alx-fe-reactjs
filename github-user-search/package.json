@@ -26,3 +26,10 @@
     "vite": "^7.2.4"
   }
 }
+
+"devDependencies": {
+  "tailwindcss": "^3.x.x",
+  "postcss": "^8.x.x",
+  "autoprefixer": "^10.x.x"
+}
+
