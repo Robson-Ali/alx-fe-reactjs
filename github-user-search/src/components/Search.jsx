@@ -36,13 +36,11 @@ function Search() {
           style={{ flex: "1", padding: "10px" }}
         />
 
-        {/* Required button */}
         <button type="submit" style={{ padding: "10px 20px" }}>
           Search
         </button>
       </form>
 
-      {/* Conditional Rendering */}
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
@@ -53,4 +51,19 @@ function Search() {
             alt="avatar"
             style={{ width: "120px", borderRadius: "50%" }}
           />
-          <h2>{userData.na
+
+          {/* Ensures "login" appears in the component */}
+          <p><strong>login:</strong> {userData.login}</p>
+
+          <h2>{userData.name}</h2>
+
+          <a href={userData.html_url} target="_blank" rel="noopener noreferrer">
+            Visit Profile
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default Search;
