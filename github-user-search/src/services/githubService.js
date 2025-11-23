@@ -1,12 +1,6 @@
 import axios from "axios";
 
-/**
- * Advanced GitHub User Search
- * Uses GitHub Search API:
- *  https://api.github.com/search/users?q=
- */
-
-async function searchUsers(username, location, minRepos, page = 1) {
+async function fetchUserData(username, location = "", minRepos = "", page = 1) {
   let query = "";
 
   if (username) query += `${username} `;
@@ -21,7 +15,6 @@ async function searchUsers(username, location, minRepos, page = 1) {
 
   const users = response.data.items;
 
-  // Fetch additional details for each user (location, repos, etc.)
   const detailedUsers = await Promise.all(
     users.map(async (user) => {
       const detail = await axios.get(`https://api.github.com/users/${user.login}`);
@@ -35,4 +28,4 @@ async function searchUsers(username, location, minRepos, page = 1) {
   };
 }
 
-export default searchUsers;
+export default fetchUserData;
