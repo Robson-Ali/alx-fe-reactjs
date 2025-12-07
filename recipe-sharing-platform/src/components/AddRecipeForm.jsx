@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function AddRecipeForm() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
-  const [md, setMd] = useState(""); // <-- ADDED
+  const [steps, setSteps] = useState(""); // <-- REQUIRED
 
   const [errors, setErrors] = useState({});
 
@@ -11,11 +11,12 @@ export default function AddRecipeForm() {
     const newErrors = {};
 
     if (!title.trim()) newErrors.title = "Recipe title is required.";
+
     if (!ingredients.trim()) newErrors.ingredients = "Ingredients are required.";
     else if (ingredients.split("\n").length < 2)
       newErrors.ingredients = "Include at least 2 ingredients (each on a new line).";
 
-    if (!md.trim()) newErrors.md = "Markdown recipe instructions are required."; // <-- ADDED
+    if (!steps.trim()) newErrors.steps = "Preparation steps are required."; // <-- REQUIRED
 
     setErrors(newErrors);
 
@@ -30,16 +31,15 @@ export default function AddRecipeForm() {
     const recipeData = {
       title,
       ingredients: ingredients.split("\n"),
-      md, // <-- REQUIRED
+      steps: steps.split("\n"), // <-- REQUIRED
     };
 
     console.log("New Recipe Submitted:", recipeData);
-
     alert("Recipe submitted successfully!");
 
     setTitle("");
     setIngredients("");
-    setMd(""); // <-- RESET
+    setSteps(""); // <-- RESET
     setErrors({});
   };
 
@@ -83,31 +83,7 @@ export default function AddRecipeForm() {
           )}
         </div>
 
-        {/* Markdown Instructions */}
+        {/* Steps */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">
-            Instructions (Markdown)
-          </label>
-          <textarea
-            value={md}
-            onChange={(e) => setMd(e.target.value)}
-            rows="6"
-            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Write full recipe instructions in markdown..."
-          ></textarea>
-          {errors.md && (
-            <p className="text-red-500 text-sm mt-1">{errors.md}</p>
-          )}
-        </div>
-
-        {/* Submit */}
-        <button
-          type="submit"
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold p-3 rounded-lg transition"
-        >
-          Submit Recipe
-        </button>
-      </form>
-    </div>
-  );
-}
+            Preparat
