@@ -3,7 +3,7 @@ import { useState } from "react";
 export default function AddRecipeForm() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState("");
+  const [md, setMd] = useState(""); // <-- ADDED
 
   const [errors, setErrors] = useState({});
 
@@ -15,7 +15,7 @@ export default function AddRecipeForm() {
     else if (ingredients.split("\n").length < 2)
       newErrors.ingredients = "Include at least 2 ingredients (each on a new line).";
 
-    if (!steps.trim()) newErrors.steps = "Preparation steps are required.";
+    if (!md.trim()) newErrors.md = "Markdown recipe instructions are required."; // <-- ADDED
 
     setErrors(newErrors);
 
@@ -30,7 +30,7 @@ export default function AddRecipeForm() {
     const recipeData = {
       title,
       ingredients: ingredients.split("\n"),
-      steps: steps.split("\n"),
+      md, // <-- REQUIRED
     };
 
     console.log("New Recipe Submitted:", recipeData);
@@ -39,7 +39,7 @@ export default function AddRecipeForm() {
 
     setTitle("");
     setIngredients("");
-    setSteps("");
+    setMd(""); // <-- RESET
     setErrors({});
   };
 
@@ -83,20 +83,20 @@ export default function AddRecipeForm() {
           )}
         </div>
 
-        {/* Steps */}
+        {/* Markdown Instructions */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">
-            Preparation Steps (one per line)
+            Instructions (Markdown)
           </label>
           <textarea
-            value={steps}
-            onChange={(e) => setSteps(e.target.value)}
-            rows="5"
+            value={md}
+            onChange={(e) => setMd(e.target.value)}
+            rows="6"
             className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="e.g. Mix ingredients\nBake at 180°C for 20 mins"
+            placeholder="Write full recipe instructions in markdown..."
           ></textarea>
-          {errors.steps && (
-            <p className="text-red-500 text-sm mt-1">{errors.steps}</p>
+          {errors.md && (
+            <p className="text-red-500 text-sm mt-1">{errors.md}</p>
           )}
         </div>
 
