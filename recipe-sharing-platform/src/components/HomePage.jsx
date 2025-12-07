@@ -2,19 +2,10 @@ import React, { useEffect, useState } from "react";
 import data from "../data.json";
 import { Link } from "react-router-dom";
 
-<Link
-  to={`/recipe/${recipe.id}`}
-  className="inline-block mt-4 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
->
-  View Recipe
-</Link>
-
-
 export default function HomePage() {
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
-    // Load mock data
     setRecipes(data);
   }, []);
 
@@ -24,6 +15,17 @@ export default function HomePage() {
         Recipe Sharing Platform
       </h1>
 
+      {/* Add Recipe Button */}
+      <div className="flex justify-center mb-6">
+        <Link
+          to="/add-recipe"
+          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+        >
+          + Add New Recipe
+        </Link>
+      </div>
+
+      {/* Recipe Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
           <div
@@ -42,12 +44,13 @@ export default function HomePage() {
               </h2>
               <p className="text-gray-600 mb-4">{recipe.summary}</p>
 
-              <a
-                href={`/recipe/${recipe.id}`}
+              {/* Use Link instead of <a> */}
+              <Link
+                to={`/recipe/${recipe.id}`}
                 className="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
               >
                 View Recipe
-              </a>
+              </Link>
             </div>
           </div>
         ))}
