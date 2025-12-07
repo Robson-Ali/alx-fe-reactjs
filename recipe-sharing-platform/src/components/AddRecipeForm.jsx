@@ -3,7 +3,8 @@ import { useState } from "react";
 export default function AddRecipeForm() {
   const [title, setTitle] = useState("");
   const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState(""); // <-- REQUIRED
+  const [steps, setSteps] = useState("");
+  const [md, setMd] = useState(""); // <-- REQUIRED FIELD
 
   const [errors, setErrors] = useState({});
 
@@ -16,22 +17,23 @@ export default function AddRecipeForm() {
     else if (ingredients.split("\n").length < 2)
       newErrors.ingredients = "Include at least 2 ingredients (each on a new line).";
 
-    if (!steps.trim()) newErrors.steps = "Preparation steps are required."; // <-- REQUIRED
+    if (!steps.trim()) newErrors.steps = "Preparation steps are required.";
+
+    if (!md.trim()) newErrors.md = "Markdown description is required."; // <-- VALIDATION
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!validate()) return;
 
     const recipeData = {
       title,
       ingredients: ingredients.split("\n"),
-      steps: steps.split("\n"), // <-- REQUIRED
+      steps: steps.split("\n"),
+      md, // <-- INCLUDE md IN SUBMITTED DATA
     };
 
     console.log("New Recipe Submitted:", recipeData);
@@ -39,7 +41,8 @@ export default function AddRecipeForm() {
 
     setTitle("");
     setIngredients("");
-    setSteps(""); // <-- RESET
+    setSteps("");
+    setMd(""); // <-- RESET
     setErrors({});
   };
 
@@ -86,4 +89,45 @@ export default function AddRecipeForm() {
         {/* Steps */}
         <div>
           <label className="block text-gray-700 font-medium mb-2">
-            Preparat
+            Preparation Steps (one per line)
+          </label>
+          <textarea
+            value={steps}
+            onChange={(e) => setSteps(e.target.value)}
+            rows="5"
+            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            placeholder="e.g. Mix ingredients\nBake at 180°C for 20 mins"
+          ></textarea>
+          {errors.steps && (
+            <p className="text-red-500 text-sm mt-1">{errors.steps}</p>
+          )}
+        </div>
+
+        {/* Markdown Field */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-2">
+            Markdown Description (MD)
+          </label>
+          <textarea
+            value={md}
+            onChange={(e) => setMd(e.target.value)}
+            rows="4"
+            className="w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            placeholder="Write a markdown description for your recipe..."
+          ></textarea>
+          {errors.md && (
+            <p className="text-red-500 text-sm mt-1">{errors.md}</p>
+          )}
+        </div>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold p-3 rounded-lg transition"
+        >
+          Submit Recipe
+        </button>
+      </form>
+    </div>
+  );
+}
