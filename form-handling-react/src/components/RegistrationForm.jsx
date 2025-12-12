@@ -1,39 +1,55 @@
 import React, { useState } from 'react';
 
 function RegistrationForm() {
-  // State for form data (using individual useState variables)
+  // State for form data
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  // State for validation errors
+  // State for validation errors (displaying a single, general error message)
   const [error, setError] = useState('');
 
   // Handler for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    setError(''); // Always clear previous errors at the start of submission
 
-    // Basic Validation Check: Ensure no fields are empty
-    if (!username || !email || !password) {
-      setError('All fields must be filled out before registration.');
+    // --- Explicit Validation Checks ---
+    
+    // Check 1: Username required
+    if (!username) {
+      setError('Username is required.');
+      return;
+    }
+    
+    // Check 2: Email required
+    if (!email) {
+      setError('Email is required.');
       return;
     }
 
-    // Email format validation (simple check)
+    // Check 3: Basic email format
     if (!email.includes('@') || !email.includes('.')) {
-        setError('Please enter a valid email address.');
-        return;
+      setError('Please enter a valid email address.');
+      return;
     }
 
-    // Simulation of API call
+    // Check 4: Password required
+    if (!password) {
+      setError('Password is required.');
+      return;
+    }
+    
+    // --- End Validation Checks ---
+    
+    // If validation passes, proceed with submission simulation
     console.log('Controlled Form Data Submitted:', { username, email, password });
     alert(`Registration successful for ${username}! (Simulated)`);
 
-    // Reset form after successful submission
+    // Reset form fields
     setUsername('');
     setEmail('');
     setPassword('');
-    setError('');
   };
 
   return (
@@ -50,8 +66,8 @@ function RegistrationForm() {
                     id="username"
                     name="username"
                     type="text"
-                    value={username} // Directly bound to username state
-                    onChange={(e) => { setUsername(e.target.value); setError(''); }} // Individual setter
+                    value={username} // Controlled by state
+                    onChange={(e) => { setUsername(e.target.value); setError(''); }} 
                     style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
                 />
             </div>
@@ -62,8 +78,8 @@ function RegistrationForm() {
                     id="email"
                     name="email"
                     type="email"
-                    value={email} // Directly bound to email state
-                    onChange={(e) => { setEmail(e.target.value); setError(''); }} // Individual setter
+                    value={email} // Controlled by state
+                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
                     style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
                 />
             </div>
@@ -74,8 +90,8 @@ function RegistrationForm() {
                     id="password"
                     name="password"
                     type="password"
-                    value={password} // Directly bound to password state
-                    onChange={(e) => { setPassword(e.target.value); setError(''); }} // Individual setter
+                    value={password} // Controlled by state
+                    onChange={(e) => { setPassword(e.target.value); setError(''); }}
                     style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
                 />
             </div>
