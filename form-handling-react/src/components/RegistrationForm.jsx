@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 
 function RegistrationForm() {
-  // State for form data
+  // 1. State for form data (Individual controlled components)
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
-  // State for validation errors (displaying a single, general error message)
+  // 2. State for validation errors (using setError to set a single error message)
   const [error, setError] = useState('');
 
   // Handler for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    setError(''); // Always clear previous errors at the start of submission
+    setError(''); // Clear previous errors at the start
 
     // --- Explicit Validation Checks ---
     
@@ -42,7 +42,7 @@ function RegistrationForm() {
     
     // --- End Validation Checks ---
     
-    // If validation passes, proceed with submission simulation
+    // If validation passes (no return occurred), proceed with submission
     console.log('Controlled Form Data Submitted:', { username, email, password });
     alert(`Registration successful for ${username}! (Simulated)`);
 
@@ -66,8 +66,8 @@ function RegistrationForm() {
                     id="username"
                     name="username"
                     type="text"
-                    value={username} // Controlled by state
-                    onChange={(e) => { setUsername(e.target.value); setError(''); }} 
+                    value={username} // Connected to state
+                    onChange={(e) => { setUsername(e.target.value); setError(''); }} // Updates state and clears error
                     style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
                 />
             </div>
@@ -78,7 +78,7 @@ function RegistrationForm() {
                     id="email"
                     name="email"
                     type="email"
-                    value={email} // Controlled by state
+                    value={email} // Connected to state
                     onChange={(e) => { setEmail(e.target.value); setError(''); }}
                     style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
                 />
@@ -90,7 +90,7 @@ function RegistrationForm() {
                     id="password"
                     name="password"
                     type="password"
-                    value={password} // Controlled by state
+                    value={password} // Connected to state
                     onChange={(e) => { setPassword(e.target.value); setError(''); }}
                     style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
                 />
