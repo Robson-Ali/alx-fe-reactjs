@@ -1,105 +1,106 @@
 import React, { useState } from 'react';
 
 function RegistrationForm() {
-  // 1. State for form data (Individual controlled components)
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  // 2. State for validation errors (using setError to set a single error message)
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({}); // Object for multiple field-specific errors
 
-  // Handler for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-    setError(''); // Clear previous errors at the start
+    const newErrors = {};
 
-    // --- Explicit Validation Checks ---
-    
-    // Check 1: Username required
-    if (!username) {
-      setError('Username is required.');
-      return;
-    }
-    
-    // Check 2: Email required
-    if (!email) {
-      setError('Email is required.');
-      return;
-    }
+    // Collect all validation errors
+    if (!username.trim()) newErrors.username = 'Username is required.';
+    if (!email.trim()) newErrors.email = 'Email is required.';
+    else if (!email.includes('@') || !email.includes('.')) newErrors.email = 'Please enter a valid email address.';
+    if (!password.trim()) newErrors.password = 'Password is required.';
 
-    // Check 3: Basic email format
-    if (!email.includes('@') || !email.includes('.')) {
-      setError('Please enter a valid email address.');
-      return;
-    }
+    setErrors(newErrors);
 
-    // Check 4: Password required
-    if (!password) {
-      setError('Password is required.');
-      return;
-    }
-    
-    // --- End Validation Checks ---
-    
-    // If validation passes (no return occurred), proceed with submission
-    console.log('Controlled Form Data Submitted:', { username, email, password });
+    // Stop submission if any errors exist
+    if (Object.keys(newErrors).length > 0) return;
+
+    // Success - submit form
+    console.log('Registration Data:', { username, email, password });
     alert(`Registration successful for ${username}! (Simulated)`);
 
-    // Reset form fields
+    // Reset form
     setUsername('');
     setEmail('');
     setPassword('');
+    setErrors({});
+  };
+
+  const handleChange = (field, value) => {
+    // Clear specific field error on change
+    setErrors(prev => ({ ...prev, [field]: '' }));
+    // Update field value
+    if (field === 'username') setUsername(value);
+    else if (field === 'email') setEmail(value);
+    else if (field === 'password') setPassword(value);
   };
 
   return (
     <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '5px', maxWidth: '400px', margin: '20px auto' }}>
-        <h2>Controlled Component Registration</h2>
-        <form onSubmit={handleSubmit}>
-            
-            {/* Display general error message */}
-            {error && <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>}
+      <h2>Registration Form</h2>
+      <form onSubmit={handleSubmit}>
+        
+        <div>
+          <label htmlFor="username">Username:</label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            value={username}
+            onChange={(e) => handleChange('username', e.target.value)}
+            style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
+          />
+          {errors.username && <p style={{ color: 'red', fontSize: '14px', margin: '2px 0' }}>{errors.username}</p>}
+        </div>
 
-            <div>
-                <label htmlFor="username">Username:</label>
-                <input
-                    id="username"
-                    name="username"
-                    type="text"
-                    value={username} // Connected to state
-                    onChange={(e) => { setUsername(e.target.value); setError(''); }} // Updates state and clears error
-                    style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
-                />
-            </div>
+        <div>
+          <label htmlFor="email">Email:</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={email}
+            onChange={(e) => handleChange('email', e.target.value)}
+            style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
+          />
+          {errors.email && <p style={{ color: 'red', fontSize: '14px', margin: '2px 0' }}>{errors.email}</p>}
+        </div>
 
-            <div>
-                <label htmlFor="email">Email:</label>
-                <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={email} // Connected to state
-                    onChange={(e) => { setEmail(e.target.value); setError(''); }}
-                    style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
-                />
-            </div>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={password}
+            onChange={(e) => handleChange('password', e.target.value)}
+            style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
+          />
+          {errors.password && <p style={{ color: 'red', fontSize: '14px', margin: '2px 0' }}>{errors.password}</p>}
+        </div>
 
-            <div>
-                <label htmlFor="password">Password:</label>
-                <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    value={password} // Connected to state
-                    onChange={(e) => { setPassword(e.target.value); setError(''); }}
-                    style={{ display: 'block', width: '90%', padding: '8px', margin: '5px 0' }}
-                />
-            </div>
-
-            <button type="submit" style={{ padding: '10px 15px', marginTop: '15px', backgroundColor: 'teal', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
-                Register
-            </button>
-        </form>
+        <button 
+          type="submit" 
+          style={{ 
+            padding: '10px 15px', 
+            marginTop: '15px', 
+            backgroundColor: 'teal', 
+            color: 'white', 
+            border: 'none', 
+            borderRadius: '5px', 
+            cursor: 'pointer',
+            width: '100%'
+          }}
+        >
+          Register
+        </button>
+      </form>
     </div>
   );
 }
