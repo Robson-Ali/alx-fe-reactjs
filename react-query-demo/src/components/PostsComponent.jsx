@@ -11,6 +11,7 @@ const PostsComponent = () => {
   const { 
     data: posts, 
     isLoading, 
+    isError,    // renaming from error to isError
     error, 
     refetch 
   } = useQuery({
@@ -19,7 +20,7 @@ const PostsComponent = () => {
   });
 
   if (isLoading) return <div style={{ color: 'blue', fontWeight: 'bold' }}>Loading posts...</div>;
-  if (error) return <div style={{ color: 'red', fontWeight: 'bold' }}>Error: {error.message}</div>;
+  if (isError) return <div style={{ color: 'red', fontWeight: 'bold' }}>Error: {error.message}</div>;  // Now uses isError
 
   return (
     <div>
