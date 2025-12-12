@@ -1,4 +1,3 @@
-// src/PostsComponent.jsx
 import { useQuery } from '@tanstack/react-query';
 
 const fetchPosts = async () => {
@@ -11,16 +10,20 @@ const PostsComponent = () => {
   const { 
     data: posts, 
     isLoading, 
-    isError,    // renaming from error to isError
+    isError, 
     error, 
     refetch 
   } = useQuery({
     queryKey: ['posts'],
     queryFn: fetchPosts,
+    cacheTime: 5 * 60 * 1000,      // 5 minutes cache
+    staleTime: 2 * 60 * 1000,      // 2 minutes stale
+    refetchOnWindowFocus: false,   // Disable auto-refetch on focus
+    keepPreviousData: true         // Keep old data during refetch
   });
 
   if (isLoading) return <div style={{ color: 'blue', fontWeight: 'bold' }}>Loading posts...</div>;
-  if (isError) return <div style={{ color: 'red', fontWeight: 'bold' }}>Error: {error.message}</div>;  // Now uses isError
+  if (isError) return <div style={{ color: 'red', fontWeight: 'bold' }}>Error: {error.message}</div>;
 
   return (
     <div>
