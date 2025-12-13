@@ -4,7 +4,7 @@ import AddTodoForm from './AddTodoForm';
 const initialTodos = [
   { id: 1, text: 'Learn React', completed: false },
   { id: 2, text: 'Build a Todo App', completed: true },
-  { id: 3, text: 'Write tests', completed: false },
+  { id: 3, text: 'Write tests', completed: false }
 ];
 
 function TodoList() {
@@ -14,7 +14,7 @@ function TodoList() {
     const newTodo = {
       id: Date.now(),
       text,
-      completed: false,
+      completed: false
     };
     setTodos((prev) => [...prev, newTodo]);
   };
@@ -42,7 +42,7 @@ function TodoList() {
             onClick={() => handleToggleTodo(todo.id)}
             style={{
               textDecoration: todo.completed ? 'line-through' : 'none',
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
             <span>{todo.text}</span>
